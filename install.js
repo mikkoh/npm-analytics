@@ -20,13 +20,14 @@ if(!module.parent) {
 	// no install script exists
 	if(!fs.existsSync(pathInstall)) {
 
-		var write = fs.createWriteStream(pathInstall, {
-			mode: '0755'
-		});
 		fs.createReadStream(pathAnalytics)
-		.pipe(write);
+		.pipe(fs.createWriteStream(pathInstall, {
+			mode: '0755'
+		}));
 		
 	} else {
 
+		// TODO: Handle this properly
+		throw new Error('there is already a .hooks/install script in node_modules');
 	}	
 }
