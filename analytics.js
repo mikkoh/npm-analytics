@@ -44,12 +44,21 @@ if( path.resolve(process.cwd(), path.join('..', '..')) == BASE_DIR ) {
 		if(npmArgv.original.indexOf('--save') > -1) {
 			
 			deps = deps.concat(npmArgv.remain);
+
+			fillInInfo();
 		} else if(npmArgv.original.indexOf('--save-dev') > -1) {
 			
 			devDeps = devDeps.concat(npmArgv.remain);
-		}
-	}
 
+			fillInInfo();
+		}
+	} else {
+
+		fillInInfo();
+	}
+}
+
+function fillInInfo() {
 
 	info.initAuthor = process.env.npm_config_init_author_github;
 	info.time = (new Date()).toString();
@@ -67,7 +76,7 @@ if( path.resolve(process.cwd(), path.join('..', '..')) == BASE_DIR ) {
 		homepage: packageJSON.homepage
 	};
 
-	getVersions(deps)
+	return getVersions(deps)
 	.then(function(dependencies) {
 
 		info.module.dependencies = dependencies;
