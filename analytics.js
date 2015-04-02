@@ -51,17 +51,32 @@ if( path.resolve(process.cwd(), path.join('..', '..')) == BASE_DIR ) {
 	}
 
 
+	info.initAuthor = process.env.npm_config_init_author_github;
+	info.time = (new Date()).toString();
+	info.initiators = npmArgv.remain.slice();
+
+	info.module = {
+
+		name: packageJSON.name,
+		version: packageJSON.version,
+		description: packageJSON.description,
+		license: packageJSON.license,
+		author: packageJSON.author,
+		keywords: packageJSON.keywords,
+		repository: packageJSON.repository,
+		homepage: packageJSON.homepage
+	};
 
 	getVersions(deps)
 	.then(function(dependencies) {
 
-		info.dependencies = dependencies;
+		info.module.dependencies = dependencies;
 
 		return getVersions(devDeps);
 	})
 	.then(function(devDependencies) {
 
-		info.devDependencies = devDependencies;
+		info.module.devDependencies = devDependencies;
 	})
 	.then(function() {
 
